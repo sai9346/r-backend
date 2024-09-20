@@ -15,7 +15,7 @@ const app = express();
 connectDB();
 
 // Middleware setup
-app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:3000' }));
+app.use(cors({ origin: process.env.FRONTEND_URL || 'https://r-portal-two.vercel.app/' }));
 app.use(express.json());
 
 // Routes setup
