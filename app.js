@@ -17,7 +17,7 @@ connectDB();
 // Allowed origins
 const allowedOrigins = [
   'http://localhost:3000', // Localhost for development
-  process.env.FRONTEND_URL // Vercel frontend
+  process.env.FRONTEND_URL || 'https://r-portal-two.vercel.app' // Vercel frontend URL
 ];
 
 // CORS Middleware setup
@@ -25,15 +25,20 @@ app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
+    
+    // If the origin is not allowed, return an error
     if (allowedOrigins.indexOf(origin) === -1) {
       const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
       return callback(new Error(msg), false);
     }
+    
+    // Allow the origin
     return callback(null, true);
-  }
+  },
+  credentials: true, // Allow cookies or authentication tokens to be included in requests
 }));
 
-// Middleware to parse incoming requests with JSON payloads
+// Middleware
 app.use(express.json());
 
 // Routes setup
