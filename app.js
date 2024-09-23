@@ -15,27 +15,8 @@ const app = express();
 // Connect to the database
 connectDB();
 
-// Allowed origins
-const allowedOrigins = [
-  'http://localhost:3000', // Localhost for development
-  process.env.FRONTEND_URL || 'https://r-portal-two.vercel.app', // Vercel frontend URL
-];
-
 // CORS Middleware setup
-app.use(cors({
-  origin: (origin, callback) => {
-    console.log('Origin:', origin); // Log the incoming origin
-    if (!origin) return callback(null, true); // Allow requests with no origin
-
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'CORS policy does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-
-    return callback(null, true); // Allow the origin
-  },
-  credentials: true, // Allow credentials
-}));
+app.use(cors({ origin: '*', credentials: true })); // Allow all origins for testing
 
 // Middleware
 app.use(express.json());
