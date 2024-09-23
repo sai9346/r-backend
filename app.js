@@ -1,3 +1,4 @@
+// server.js
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
@@ -17,25 +18,23 @@ connectDB();
 // Allowed origins
 const allowedOrigins = [
   'http://localhost:3000', // Localhost for development
-  process.env.FRONTEND_URL || 'https://r-portal-two.vercel.app' // Vercel frontend URL
+  process.env.FRONTEND_URL || 'https://r-portal-two.vercel.app', // Vercel frontend URL
 ];
 
 // CORS Middleware setup
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    
-    // If the origin is not allowed, return an error
+  origin: (origin, callback) => {
+    console.log('Origin:', origin); // Log the incoming origin
+    if (!origin) return callback(null, true); // Allow requests with no origin
+
     if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      const msg = 'CORS policy does not allow access from the specified Origin.';
       return callback(new Error(msg), false);
     }
-    
-    // Allow the origin
-    return callback(null, true);
+
+    return callback(null, true); // Allow the origin
   },
-  credentials: true, // Allow cookies or authentication tokens to be included in requests
+  credentials: true, // Allow credentials
 }));
 
 // Middleware
