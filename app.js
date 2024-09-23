@@ -16,8 +16,8 @@ connectDB();
 
 // Allowed origins
 const allowedOrigins = [
-  'http://localhost:3000', // Localhost (development)
-  process.env.FRONTEND_URL || 'https://r-portal-two.vercel.app/' // Vercel (production)
+  'http://localhost:3000', // Localhost for development
+  process.env.FRONTEND_URL // Vercel frontend
 ];
 
 // CORS Middleware setup
@@ -33,12 +33,13 @@ app.use(cors({
   }
 }));
 
+// Middleware to parse incoming requests with JSON payloads
 app.use(express.json());
 
 // Routes setup
 app.use('/api/jobs', jobPostingRoutes);
 app.use('/api/candidates', candidateRoutes);
-app.use('/api/applications', applicationRoutes); // Updated for clarity
+app.use('/api/applications', applicationRoutes);
 app.use('/api/shortlisting', shortlistingRoutes);
 app.use('/api/interviews', interviewScheduleRoutes);
 
